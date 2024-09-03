@@ -32,7 +32,6 @@ typedef struct s_table {
     int stop;
 } t_table;
 
-// Function prototypes
 void *philosopher_life(void *arg);
 long current_time();
 void take_forks(t_philosopher *philosopher);
