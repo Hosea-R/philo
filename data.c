@@ -6,7 +6,7 @@
 /*   By: mrazanad <mrazanad@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/09 13:25:58 by mrazanad          #+#    #+#             */
-/*   Updated: 2024/09/09 13:34:20 by mrazanad         ###   ########.fr       */
+/*   Updated: 2024/09/09 13:39:05 by mrazanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,7 @@ static int	ft_atoi(const char *nptr)
 	signe = 1;
 	resultat = 0;
 	while (nptr[i] == ' ' || (nptr[i] >= 9 && nptr[i] <= 13))
-	{
 		i++;
-	}
 	while (nptr[i] == '+' || nptr[i] == '-')
 	{
 		if (!(nptr[i + 1] >= '0' && nptr[i + 1] <= '9'))
