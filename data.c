@@ -1,14 +1,59 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   data.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrazanad <mrazanad@student.42antananari    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/09 13:25:58 by mrazanad          #+#    #+#             */
+/*   Updated: 2024/09/09 13:34:20 by mrazanad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
+
+static int	ft_atoi(const char *nptr)
+{
+	int	i;
+	int	signe;
+	int	resultat;
+
+	i = 0;
+	signe = 1;
+	resultat = 0;
+	while (nptr[i] == ' ' || (nptr[i] >= 9 && nptr[i] <= 13))
+	{
+		i++;
+	}
+	while (nptr[i] == '+' || nptr[i] == '-')
+	{
+		if (!(nptr[i + 1] >= '0' && nptr[i + 1] <= '9'))
+			return (0);
+		if (nptr[i] == '-')
+			signe *= -1;
+		i++;
+	}
+	while (nptr[i] >= '0' && nptr[i] <= '9')
+	{
+		resultat = resultat * 10 + nptr[i] - '0';
+		i++;
+	}
+	return (resultat * signe);
+}
 
 int	init_data(t_table *table, int argc, char **argv)
 {
 	int	i;
 
-	table->num_philosophers = atoi(argv[1]);
-	table->time_to_die = atoi(argv[2]);
-	table->time_to_eat = atoi(argv[3]);
-	table->time_to_sleep = atoi(argv[4]);
-	table->max_meals = (argc == 6) ? atoi(argv[5]) : -1;
+	table->num_philosophers = ft_atoi(argv[1]);
+	table->time_to_die = ft_atoi(argv[2]);
+	table->time_to_eat = ft_atoi(argv[3]);
+	table->time_to_sleep = ft_atoi(argv[4]);
+	//table->max_meals = (argc == 6) ? ft_atoi(argv[5]) : -1;
+	if (argc == 6)
+		table->max_meals = ft_atoi(argv[5]);
+	else
+		table->max_meals = -1;
 	table->stop = 0;
 	table->forks = malloc(sizeof(t_fork) * table->num_philosophers);
 	table->philosophers = malloc(sizeof(t_philosopher)

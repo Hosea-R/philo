@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrazanad <mrazanad@student.42antananari    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/09 13:26:03 by mrazanad          #+#    #+#             */
+/*   Updated: 2024/09/09 13:33:55 by mrazanad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 int	main(int argc, char **argv)
@@ -11,9 +23,7 @@ int	main(int argc, char **argv)
 		return (1);
 	}
 	if (init_data(&table, argc, argv) != 0)
-	{
 		return (1);
-	}
 	table.start_time = current_time();
 	i = 0;
 	while (i < table.num_philosophers)
