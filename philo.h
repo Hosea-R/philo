@@ -36,7 +36,7 @@ typedef struct s_table
 	pthread_mutex_t print_lock;
 } t_table;
 
-void    init_data(t_table *table, int argc, char **argv);
+int    init_data(t_table *table, int argc, char **argv);
 void    destroy_data(t_table *table);
 void    *philosopher_life(void *arg);
 void    take_forks(t_philosopher *philosopher);
@@ -47,5 +47,6 @@ void    thinking(t_philosopher *philosopher);
 void    print_action(t_table *table, int philosopher_id, const char *action);
 void    check_death(t_table *table);
 long    current_time(void);
+long	get_timestamp(t_table *table);
 
 #endif

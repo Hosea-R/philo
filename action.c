@@ -39,8 +39,6 @@ void	eating(t_philosopher *philosopher)
 	usleep(table->time_to_eat * 1000);
 }
 
-#include "philo.h"
-
 void	thinking(t_philosopher *philosopher)
 {
 	t_table	*table;
