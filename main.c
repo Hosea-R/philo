@@ -1,44 +1,48 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mrazanad <mrazanad@student.42antananari    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/09 13:26:03 by mrazanad          #+#    #+#             */
-/*   Updated: 2024/09/09 13:33:55 by mrazanad         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include "Philosophers.h"
 
-#include "philo.h"
-
-int	main(int argc, char **argv)
+void	*philosopher_routine(void *param)
 {
-	t_table	table;
-	int		i;
+	t_args		*args;
+	t_person	*person;
+	t_config	*config;
+	int			has_priority;
 
-	if (argc < 5 || argc > 6)
+	args = (t_args *)param;
+	config = args->config;
+	person = args->person;
+	has_priority = 0;
+
+	while (check_no_dead(config))
 	{
-		printf("%s Invalid number of arguments\n", argv[0]);
-		return (1);
+		verify_death(config, person);
+		has_priority = check_priority(config, person);
+		if (has_priority && check_no_dead(config))
+		{
+			perform_eating(config, person);
+			perform_sleeping(config, person);
+		}
+		if (person->current_state == -1 && check_no_dead(config))
+			perform_thinking(config, person);
+		delay(0);
 	}
-	if (init_data(&table, argc, argv) != 0)
-		return (1);
-	table.start_time = current_time();
-	i = 0;
-	while (i < table.num_philosophers)
+	return (args);
+}
+
+int	main(int argc, char *argv[])
+{
+	t_config	config;
+
+	if ((argc == 5 || argc == 6) && validate_input(argc, argv))
 	{
-		pthread_create(&table.philosophers[i].thread, NULL, philosopher_life,
-			&table.philosophers[i]);
-		i++;
+		if (argc == 6 && !string_to_int(argv[5]))
+			return (0);
+		initialize_config(&config, argc, argv);
+		start_simulation(&config);
+		update_priority_order(&config);
+		report_dead_philosopher(&config);
+		cleanup_config(&config);
 	}
-	check_death(&table);
-	i = 0;
-	while (i < table.num_philosophers)
-	{
-		pthread_join(table.philosophers[i].thread, NULL);
-		i++;
-	}
-	destroy_data(&table);
+	else
+		printf("Invalid input\n");
 	return (0);
 }

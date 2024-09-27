@@ -1,69 +1,57 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   action.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mrazanad <mrazanad@student.42antananari    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/09 13:25:51 by mrazanad          #+#    #+#             */
-/*   Updated: 2024/09/09 13:25:52 by mrazanad         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include "Philosophers.h"
 
-#include "philo.h"
-
-void	take_forks(t_philosopher *philosopher)
+void	perform_eating(t_config *config, t_person *person)
 {
-	t_table	*table;
-	int		left_fork;
-	int		right_fork;
+	pthread_mutex_t	*first_fork;
+	pthread_mutex_t	*second_fork;
 
-	table = philosopher->table;
-	left_fork = philosopher->id;
-	right_fork = (philosopher->id + 1) % table->num_philosophers;
-	pthread_mutex_lock(&table->forks[left_fork].mutex);
-	pthread_mutex_lock(&table->forks[right_fork].mutex);
-	print_action(table, philosopher->id, "has taken a fork");
-	print_action(table, philosopher->id, "has taken a fork");
+	first_fork = person->right_fork;
+	second_fork = person->left_fork;
+	if (person->id % 2)
+	{
+		first_fork = person->left_fork;
+		second_fork = person->right_fork;
+	}
+	person->last_meal_time = current_time();
+	pthread_mutex_lock(first_fork);
+	display_status(config, person, -1);
+	pthread_mutex_lock(second_fork);
+	display_status(config, person, -1);
+	display_status(config, person, 2);
+	person->current_state = 2;
+	delay(config->eat_duration);
+	pthread_mutex_unlock(first_fork);
+	pthread_mutex_unlock(second_fork);
+	pthread_mutex_lock(&config->config_mutex);
+	config->finished_count++;
+	pthread_mutex_unlock(&config->config_mutex);
+	person->meal_count++;
+	verify_death(config, person);
 }
 
-void	release_forks(t_philosopher *philosopher)
+void	perform_sleeping(t_config *config, t_person *person)
 {
-	t_table	*table;
-	int		left_fork;
-	int		right_fork;
-
-	table = philosopher->table;
-	left_fork = philosopher->id;
-	right_fork = (philosopher->id + 1) % table->num_philosophers;
-	pthread_mutex_unlock(&table->forks[left_fork].mutex);
-	pthread_mutex_unlock(&table->forks[right_fork].mutex);
+	if (check_no_dead(config))
+	{
+		display_status(config, person, 3); 
+		person->current_state = 3;
+		delay(config->sleep_duration);
+		person->current_state = -1;
+		if (config->sleep_duration <= 1)
+		{
+			while (check_priority(config, person) && check_no_dead(config))
+				delay(0);
+		}
+		verify_death(config, person);
+	}
 }
 
-void	eating(t_philosopher *philosopher)
+void	perform_thinking(t_config *config, t_person *person)
 {
-	t_table	*table;
-
-	table = philosopher->table;
-	print_action(table, philosopher->id, "is eating");
-	philosopher->last_meal = current_time();
-	philosopher->times_eaten++;
-	usleep(table->time_to_eat * 1000);
-}
-
-void	thinking(t_philosopher *philosopher)
-{
-	t_table	*table;
-
-	table = philosopher->table;
-	print_action(table, philosopher->id, "is thinking");
-}
-
-void	sleeping(t_philosopher *philosopher)
-{
-	t_table	*table;
-
-	table = philosopher->table;
-	print_action(table, philosopher->id, "is sleeping");
-	usleep(table->time_to_sleep * 1000);
+	if (check_no_dead(config))
+	{
+		display_status(config, person, 1);
+		person->current_state = 1;
+		verify_death(config, person);
+	}
 }

@@ -1,70 +1,57 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mrazanad <mrazanad@student.42antananari    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/09 13:26:15 by mrazanad          #+#    #+#             */
-/*   Updated: 2024/09/09 13:26:16 by mrazanad         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include "Philosophers.h"
 
-#include "philo.h"
-
-static int	ft_strcmp(const char *s1, char *s2)
+int	string_to_int(const char *str)
 {
-	while (*s1 != '\0' && *s2 != '\0' && *s1 == *s2)
+	int	result;
+	int	sign;
+	int	i;
+
+	result = 0;
+	sign = 1;
+	i = 0;
+	while (str[i] && (str[i] == ' ' || (str[i] >= 7 && str[i] <= 13)))
+		i++;
+	if (str[i] == '-')
+		sign = -1;
+	if (str[i] == '+' || str[i] == '-')
+		i++;
+	while (str[i] >= '0' && str[i] <= '9')
 	{
-		s1++;
-		s2++;
+		result = (result * 10) + str[i] - '0';
+		i++;
 	}
-	return (*s1 - *s2);
+	return (result * sign);
 }
 
-void	check_death(t_table *table)
+void	display_status(t_config *config, t_person *person, int state)
+{
+	pthread_mutex_lock(&config->config_mutex);
+	if (state == -1)
+		printf("\033[1;32m%ld %d has taken a fork\033[0m\n", current_time() - config->start_time, person->id);
+	else if (state == 1)
+		printf("\033[1;34m%ld %d is thinking\033[0m\n", current_time() - config->start_time, person->id);
+	else if (state == 2)
+		printf("\033[1;33m%ld %d is eating\033[0m\n", current_time() - config->start_time, person->id);
+	else if (state == 3)
+		printf("\033[1;35m%ld %d is sleeping\033[0m\n", current_time() - config->start_time, person->id);
+	pthread_mutex_unlock(&config->config_mutex);
+}
+
+
+int	validate_input(int argc, char *argv[])
 {
 	int	i;
 
-	while (!table->stop)
+	if (argc < 5 || argc > 6)
+		return (0);
+	i = 1;
+	while (i < argc)
 	{
-		i = 0;
-		while (i < table->num_philosophers)
-		{
-			if (current_time()
-				- table->philosophers[i].last_meal >= table->time_to_die)
-			{
-				print_action(table, i, "died");
-				table->stop = 1;
-				break ;
-			}
-			i++;
-		}
-		usleep(1000);
+		if (argv[i][0] == '-')
+			return (0);
+		if (!string_to_int(argv[i]))
+			return (0);
+		i++;
 	}
-}
-
-void	print_action(t_table *table, int philosopher_id, const char *action)
-{
-	const char	*color;
-
-	pthread_mutex_lock(&table->print_lock);
-	if (!table->stop)
-	{
-		if (ft_strcmp(action, "has taken a fork") == 0)
-			color = "\033[1;33m";
-		else if (ft_strcmp(action, "is eating") == 0)
-			color = "\033[1;32m";
-		else if (ft_strcmp(action, "is sleeping") == 0)
-			color = "\033[1;34m";
-		else if (ft_strcmp(action, "is thinking") == 0)
-			color = "\033[1;36m";
-		else if (ft_strcmp(action, "died") == 0)
-			color = "\033[1;31m";
-		else
-			color = "\033[0m";
-		printf("%s%ld %d %s\033[0m\n", color, get_timestamp(table),
-			philosopher_id + 1, action);
-	}
-	pthread_mutex_unlock(&table->print_lock);
+	return (1);
 }
