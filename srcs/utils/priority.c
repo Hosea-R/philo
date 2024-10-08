@@ -1,4 +1,4 @@
-#include "Philosophers.h"
+#include "../Philosophers.h"
 
 void	setup_priority(t_config *config)
 {

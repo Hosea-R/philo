@@ -1,4 +1,4 @@
-#include "Philosophers.h"
+#include "../Philosophers.h"
 
 t_person	*create_person(int id)
 {

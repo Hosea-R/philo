@@ -1,4 +1,4 @@
-#include "Philosophers.h"
+#include "../Philosophers.h"
 
 size_t	current_time(void)
 {

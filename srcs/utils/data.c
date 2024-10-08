@@ -1,4 +1,4 @@
-#include "Philosophers.h"
+#include "../Philosophers.h"
 
 void	initialize_config(t_config *config, int argc, char *argv[])
 {

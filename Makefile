@@ -1,18 +1,16 @@
 NAME = philo
-
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -fsanitize=thread -g
+CFLAGS = -Wall -Wextra -Werror
 
-SRCS = action.c \
-       data.c \
-       dead.c \
-       main.c \
-       philosopher.c \
-       priority.c \
-       time.c \
-       utils.c 
+SRCS = srcs/main.c srcs/utils/action.c srcs/utils/data.c \
+          srcs/utils/dead.c srcs/utils/philosopher.c \
+          srcs/utils/priority.c srcs/utils/time.c \
+          srcs/utils/utils.c
 	   
 OBJS = $(SRCS:.c=.o)
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
 all: $(NAME)
 

@@ -1,4 +1,4 @@
-#include "Philosophers.h"
+#include "../Philosophers.h"
 
 void	perform_eating(t_config *config, t_person *person)
 {
