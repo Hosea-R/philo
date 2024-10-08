@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   data.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrazanad <mrazanad@student.42antananari    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/08 12:43:06 by mrazanad          #+#    #+#             */
+/*   Updated: 2024/10/08 12:43:07 by mrazanad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../Philosophers.h"
 
 void	initialize_config(t_config *config, int argc, char *argv[])
@@ -7,18 +19,15 @@ void	initialize_config(t_config *config, int argc, char *argv[])
 	config->eat_duration = string_to_int(argv[3]);
 	config->sleep_duration = string_to_int(argv[4]);
 	config->eat_count = -1;
-
 	if (argc == 6)
 		config->eat_count = string_to_int(argv[5]);
-
 	config->finished_count = 0;
 	config->no_dead_philos = 1;
 	config->dead_philosopher = 0;
-
 	if (pthread_mutex_init(&config->config_mutex, NULL))
 	{
 		printf("Error initializing mutex\n");
-		return;
+		return ;
 	}
 	initialize_people(config);
 	setup_priority(config);
@@ -26,8 +35,8 @@ void	initialize_config(t_config *config, int argc, char *argv[])
 
 void	cleanup_config(t_config *config)
 {
-	int i;
-	void *result;
+	int		i;
+	void	*result;
 
 	i = 0;
 	while (i < config->num_philosophers)

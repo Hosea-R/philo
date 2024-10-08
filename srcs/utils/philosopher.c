@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philosopher.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrazanad <mrazanad@student.42antananari    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/08 12:43:10 by mrazanad          #+#    #+#             */
+/*   Updated: 2024/10/08 12:43:11 by mrazanad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../Philosophers.h"
 
 t_person	*create_person(int id)
@@ -38,7 +50,8 @@ void	initialize_people(t_config *config)
 	while (i--)
 	{
 		if (i == 0)
-			config->people[i]->left_fork = config->people[config->num_philosophers - 1]->right_fork;
+			config->people[i]->left_fork = config->people[config->num_philosophers
+				- 1]->right_fork;
 		else
 			config->people[i]->left_fork = config->people[i - 1]->right_fork;
 	}
@@ -57,7 +70,8 @@ void	start_simulation(t_config *config)
 		arg->config = config;
 		arg->person = config->people[i];
 		arg->person->last_meal_time = current_time();
-		pthread_create(&arg->person->thread_id, NULL, philosopher_routine, (void *)arg);
+		pthread_create(&arg->person->thread_id, NULL, philosopher_routine,
+			(void *)arg);
 		i++;
 	}
 }

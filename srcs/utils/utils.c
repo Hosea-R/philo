@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrazanad <mrazanad@student.42antananari    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/08 12:43:19 by mrazanad          #+#    #+#             */
+/*   Updated: 2024/10/08 12:43:20 by mrazanad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../Philosophers.h"
 
 int	string_to_int(const char *str)
@@ -27,16 +39,19 @@ void	display_status(t_config *config, t_person *person, int state)
 {
 	pthread_mutex_lock(&config->config_mutex);
 	if (state == -1)
-		printf("\033[1;32m%ld %d has taken a fork\033[0m\n", current_time() - config->start_time, person->id);
+		printf("\033[1;32m%ld %d has taken a fork\033[0m\n", current_time()
+			- config->start_time, person->id);
 	else if (state == 1)
-		printf("\033[1;34m%ld %d is thinking\033[0m\n", current_time() - config->start_time, person->id);
+		printf("\033[1;34m%ld %d is thinking\033[0m\n", current_time()
+			- config->start_time, person->id);
 	else if (state == 2)
-		printf("\033[1;33m%ld %d is eating\033[0m\n", current_time() - config->start_time, person->id);
+		printf("\033[1;33m%ld %d is eating\033[0m\n", current_time()
+			- config->start_time, person->id);
 	else if (state == 3)
-		printf("\033[1;35m%ld %d is sleeping\033[0m\n", current_time() - config->start_time, person->id);
+		printf("\033[1;35m%ld %d is sleeping\033[0m\n", current_time()
+			- config->start_time, person->id);
 	pthread_mutex_unlock(&config->config_mutex);
 }
-
 
 int	validate_input(int argc, char *argv[])
 {

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   dead.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrazanad <mrazanad@student.42antananari    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/08 12:43:08 by mrazanad          #+#    #+#             */
+/*   Updated: 2024/10/08 12:43:09 by mrazanad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../Philosophers.h"
 
 int	check_no_dead(t_config *config)
@@ -39,7 +51,8 @@ void	report_dead_philosopher(t_config *config)
 	if (dead_philo_id)
 	{
 		pthread_mutex_lock(&config->config_mutex);
-		printf("\033[1;31m%ld %d died\033[0m\n", current_time() - config->start_time, dead_philo_id);
+		printf("\033[1;31m%ld %d died\033[0m\n", current_time()
+			- config->start_time, dead_philo_id);
 		pthread_mutex_unlock(&config->config_mutex);
 	}
 }

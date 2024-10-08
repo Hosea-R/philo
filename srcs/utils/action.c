@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   action.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrazanad <mrazanad@student.42antananari    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/08 12:42:56 by mrazanad          #+#    #+#             */
+/*   Updated: 2024/10/08 12:42:57 by mrazanad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../Philosophers.h"
 
 void	perform_eating(t_config *config, t_person *person)
@@ -33,7 +45,7 @@ void	perform_sleeping(t_config *config, t_person *person)
 {
 	if (check_no_dead(config))
 	{
-		display_status(config, person, 3); 
+		display_status(config, person, 3);
 		person->current_state = 3;
 		delay(config->sleep_duration);
 		person->current_state = -1;

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrazanad <mrazanad@student.42antananari    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/08 12:43:21 by mrazanad          #+#    #+#             */
+/*   Updated: 2024/10/08 12:43:22 by mrazanad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "Philosophers.h"
 
 void	*philosopher_routine(void *param)
@@ -11,7 +23,6 @@ void	*philosopher_routine(void *param)
 	config = args->config;
 	person = args->person;
 	has_priority = 0;
-
 	while (check_no_dead(config))
 	{
 		verify_death(config, person);

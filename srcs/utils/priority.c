@@ -1,18 +1,30 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   priority.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mrazanad <mrazanad@student.42antananari    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/08 12:43:13 by mrazanad          #+#    #+#             */
+/*   Updated: 2024/10/08 12:43:16 by mrazanad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../Philosophers.h"
 
 void	setup_priority(t_config *config)
 {
-	int i;
-	int start_priority;
+	int	i;
+	int	start_priority;
 
 	i = 0;
 	start_priority = 1;
-
-	config->priority_order = malloc(sizeof(int) * (config->num_philosophers / 2));
+	config->priority_order = malloc(sizeof(int) * (config->num_philosophers
+				/ 2));
 	if (!config->priority_order)
 	{
 		printf("Error\n");
-		return;
+		return ;
 	}
 	while (i < config->num_philosophers / 2)
 	{
@@ -24,7 +36,7 @@ void	setup_priority(t_config *config)
 
 void	calculate_priority(t_config *config)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < config->num_philosophers / 2)
@@ -38,11 +50,10 @@ void	calculate_priority(t_config *config)
 
 int	check_priority(t_config *config, t_person *person)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	pthread_mutex_lock(&config->config_mutex);
-
 	while (i < config->num_philosophers / 2)
 	{
 		if (config->priority_order[i] == person->id)
@@ -52,7 +63,6 @@ int	check_priority(t_config *config, t_person *person)
 		}
 		i++;
 	}
-
 	pthread_mutex_unlock(&config->config_mutex);
 	return (0);
 }
