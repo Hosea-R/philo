@@ -6,7 +6,7 @@
 /*   By: mrazanad <mrazanad@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 12:43:06 by mrazanad          #+#    #+#             */
-/*   Updated: 2024/10/08 12:43:07 by mrazanad         ###   ########.fr       */
+/*   Updated: 2024/10/09 08:06:57 by mrazanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	initialize_config(t_config *config, int argc, char *argv[])
 {
-	config->num_philosophers = string_to_int(argv[1]);
+	config->num_philo = string_to_int(argv[1]);
 	config->death_time = string_to_int(argv[2]);
 	config->eat_duration = string_to_int(argv[3]);
 	config->sleep_duration = string_to_int(argv[4]);
@@ -39,7 +39,7 @@ void	cleanup_config(t_config *config)
 	void	*result;
 
 	i = 0;
-	while (i < config->num_philosophers)
+	while (i < config->num_philo)
 	{
 		pthread_join(config->people[i]->thread_id, &result);
 		free(result);

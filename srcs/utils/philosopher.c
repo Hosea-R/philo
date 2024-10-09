@@ -6,7 +6,7 @@
 /*   By: mrazanad <mrazanad@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 12:43:10 by mrazanad          #+#    #+#             */
-/*   Updated: 2024/10/08 12:43:11 by mrazanad         ###   ########.fr       */
+/*   Updated: 2024/10/09 08:06:57 by mrazanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ void	initialize_people(t_config *config)
 	int	i;
 
 	i = 0;
-	config->people = malloc(sizeof(t_person *) * config->num_philosophers);
+	config->people = malloc(sizeof(t_person *) * config->num_philo);
 	if (!config->people)
 		return ;
-	while (i < config->num_philosophers)
+	while (i < config->num_philo)
 	{
 		config->people[i] = create_person(i + 1);
 		pthread_mutex_init(&config->people[i]->person_mutex, NULL);
@@ -50,7 +50,7 @@ void	initialize_people(t_config *config)
 	while (i--)
 	{
 		if (i == 0)
-			config->people[i]->left_fork = config->people[config->num_philosophers
+			config->people[i]->left_fork = config->people[config->num_philo
 				- 1]->right_fork;
 		else
 			config->people[i]->left_fork = config->people[i - 1]->right_fork;
@@ -64,7 +64,7 @@ void	start_simulation(t_config *config)
 
 	i = 0;
 	config->start_time = current_time();
-	while (i < config->num_philosophers)
+	while (i < config->num_philo)
 	{
 		arg = malloc(sizeof(t_args));
 		arg->config = config;

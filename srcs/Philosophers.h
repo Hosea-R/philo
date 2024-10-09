@@ -31,10 +31,9 @@ typedef struct s_args
 
 typedef struct s_config
 {
-	int					num_philosophers;
+	int					num_philo;
 	t_person			**people;
 	int					death_time;
-	
 	int					eat_duration;
 	int					sleep_duration;
 	int					eat_count;
@@ -66,7 +65,8 @@ typedef struct s_person
 	pthread_mutex_t		person_mutex;
 }						t_person;
 
-void					initialize_config(t_config *config, int argc, char *argv[]);
+void					initialize_config(t_config *config, int argc,
+							char *argv[]);
 void					cleanup_config(t_config *config);
 
 void					*philosopher_routine(void *arg);
@@ -91,7 +91,8 @@ void					verify_death(t_config *config, t_person *person);
 void					report_dead_philosopher(t_config *config);
 
 int						string_to_int(const char *str);
-void					display_status(t_config *config, t_person *person, int state);
+void					display_status(t_config *config, t_person *person,
+							int state);
 int						validate_input(int argc, char *argv[]);
 
 #endif

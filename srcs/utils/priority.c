@@ -6,7 +6,7 @@
 /*   By: mrazanad <mrazanad@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 12:43:13 by mrazanad          #+#    #+#             */
-/*   Updated: 2024/10/08 12:43:16 by mrazanad         ###   ########.fr       */
+/*   Updated: 2024/10/09 08:06:57 by mrazanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ void	setup_priority(t_config *config)
 
 	i = 0;
 	start_priority = 1;
-	config->priority_order = malloc(sizeof(int) * (config->num_philosophers
+	config->priority_order = malloc(sizeof(int) * (config->num_philo
 				/ 2));
 	if (!config->priority_order)
 	{
 		printf("Error\n");
 		return ;
 	}
-	while (i < config->num_philosophers / 2)
+	while (i < config->num_philo / 2)
 	{
 		config->priority_order[i] = start_priority;
 		start_priority += 2;
@@ -39,10 +39,10 @@ void	calculate_priority(t_config *config)
 	int	i;
 
 	i = 0;
-	while (i < config->num_philosophers / 2)
+	while (i < config->num_philo / 2)
 	{
 		config->priority_order[i] = config->priority_order[i] + 1;
-		if (config->priority_order[i] > config->num_philosophers)
+		if (config->priority_order[i] > config->num_philo)
 			config->priority_order[i] = 1;
 		i++;
 	}
@@ -54,7 +54,7 @@ int	check_priority(t_config *config, t_person *person)
 
 	i = 0;
 	pthread_mutex_lock(&config->config_mutex);
-	while (i < config->num_philosophers / 2)
+	while (i < config->num_philo / 2)
 	{
 		if (config->priority_order[i] == person->id)
 		{
@@ -72,7 +72,7 @@ void	update_priority_order(t_config *config)
 	while (check_no_dead(config))
 	{
 		pthread_mutex_lock(&config->config_mutex);
-		if (config->finished_count >= config->num_philosophers / 2)
+		if (config->finished_count >= config->num_philo / 2)
 		{
 			config->finished_count = 0;
 			calculate_priority(config);
