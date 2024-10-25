@@ -6,7 +6,7 @@
 /*   By: mrazanad <mrazanad@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 12:43:08 by mrazanad          #+#    #+#             */
-/*   Updated: 2024/10/08 12:43:09 by mrazanad         ###   ########.fr       */
+/*   Updated: 2024/10/25 10:13:24 by mrazanad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ int	check_no_dead(t_config *config)
 
 void	verify_death(t_config *config, t_person *person)
 {
-	if (person->meal_count == config->eat_count && config->eat_count != -1)
+	if (person->id == config->num_philo
+		&& person->meal_count == config->eat_count)
 	{
 		pthread_mutex_lock(&config->config_mutex);
 		config->no_dead_philos = 0;
